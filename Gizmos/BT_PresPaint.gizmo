@@ -1,0 +1,745 @@
+#! C:/Program Files/Nuke12.2v2/nuke-12.2.2.dll -nx
+version 12.2 v2
+Gizmo {
+ name BT_PresPaint
+ inputs 2
+ knobChanged "\n\nCbox = nuke.thisNode()\[\"Premult\"]\n\n#knob = nuke.thisKnob()\n\nif nuke.thisKnob().name() == \"Premult\":\n\n\n    if Cbox.getValue() == \"0.0\":\n\n        nuke.thisNode().begin()\n        nuke.toNode(\"Paint\")\[\"outputMask\"].setValue(\"0.0\")\n        nuke.toNode(\"Switcher\").knob(\"which\").setValue(\"0.0\")\n        nuke.thisNode().end()\n\n    elif Cbox.getValue() == \"1.0\":\n\n        nuke.thisNode().begin()\n        nuke.toNode(\"Paint\")\[\"outputMask\"].setValue(\"4.0\")\n        nuke.toNode(\"Switcher\").knob(\"which\").setValue(\"1.0\")\n        nuke.thisNode().end()\n\nelse:\n    pass\n\n"
+ tile_color 0x1a26ff
+ label "Output: \[value mode]"
+ note_font Helvetica
+ addUserKnob {20 User l Parameters}
+ addUserKnob {52 premulter l "" +STARTLINE T "nuke.thisNode()\[\"knobChanged\"].setValue(\"\"\"\n\nCbox = nuke.thisNode()\[\"Premult\"]\n\n#knob = nuke.thisKnob()\n\nif nuke.thisKnob().name() == \"Premult\":\n\n\n    if Cbox.getValue() == \"0.0\":\n\n        nuke.thisNode().begin()\n        nuke.toNode(\"Paint\")\[\"outputMask\"].setValue(\"0.0\")\n        nuke.toNode(\"Switcher\").knob(\"which\").setValue(\"0.0\")\n        nuke.thisNode().end()\n\n    elif Cbox.getValue() == \"1.0\":\n\n        nuke.thisNode().begin()\n        nuke.toNode(\"Paint\")\[\"outputMask\"].setValue(\"4.0\")\n        nuke.toNode(\"Switcher\").knob(\"which\").setValue(\"1.0\")\n        nuke.thisNode().end()\n\nelse:\n    pass\n\n\"\"\")" +STARTLINE}
+ addUserKnob {4 mode l Viewer M {Src Unfolded Prespictive "" "" "" ""}}
+ addUserKnob {7 frqSize l Size +HIDDEN R 0 100}
+ frqSize 14.5
+ addUserKnob {26 _1 l "" +STARTLINE}
+ addUserKnob {20 group l Points n 1}
+ addUserKnob {12 Out1}
+ addUserKnob {12 Out2 -STARTLINE}
+ Out2 {1000 0}
+ addUserKnob {12 Out3}
+ Out3 {1000 1000}
+ addUserKnob {12 Out4 -STARTLINE}
+ Out4 {0 1000}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 Space l "" +STARTLINE}
+ addUserKnob {20 group_1 l Guide n 1}
+ group_1 0
+ addUserKnob {18 lineColor l Color}
+ lineColor 1
+ addUserKnob {6 lineColor_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 color_rgb_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {7 outOp l Outline}
+ outOp 1
+ addUserKnob {7 outThick l Thickness -STARTLINE R -1 1}
+ addUserKnob {7 gridOp l Grid}
+ gridOp 1
+ addUserKnob {7 gridThick l Thickness -STARTLINE R 1 10}
+ gridThick 1
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 text l "" +STARTLINE}
+ addUserKnob {6 Premult +STARTLINE}
+ addUserKnob {22 python_FH l Framehold -STARTLINE T "frame = nuke.frame()\n\nnuke.thisNode()\[\"FrameInt\"].setValue(frame)"}
+ addUserKnob {3 FrameInt l Frame -STARTLINE}
+ FrameInt 1
+ addUserKnob {6 Framehold l Enable -STARTLINE}
+ addUserKnob {26 space2 l "" +STARTLINE}
+ addUserKnob {20 group_2 l "Brush Control" n 1}
+ addUserKnob {41 toolbar_opacity l "Brush Opacity" T Paint.toolbar_opacity}
+ addUserKnob {41 toolbar_brush_size l "Brush Size" -STARTLINE T Paint.toolbar_brush_size}
+ addUserKnob {41 toolbar_brush_hardness l "Brush Hardness" -STARTLINE T Paint.toolbar_brush_hardness}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 "" l " "}
+ addUserKnob {41 toolbox l "" +STARTLINE T Paint.toolbox}
+ addUserKnob {41 curves l "" -STARTLINE T Paint.curves}
+}
+ NoOp {
+  inputs 0
+  name points
+  note_font Helvetica
+  xpos 1060
+  ypos -897
+  addUserKnob {20 User}
+  addUserKnob {12 p1}
+  p1 {{parent.Out1.x} {parent.Out1.y}}
+  addUserKnob {12 p2}
+  p2 {{parent.Out2.x} {parent.Out2.y}}
+  addUserKnob {12 p3}
+  p3 {{parent.Out3.x} {parent.Out3.y}}
+  addUserKnob {12 p4}
+  p4 {{parent.Out4.x} {parent.Out4.y}}
+ }
+ Input {
+  inputs 0
+  name Mask
+  note_font Helvetica
+  xpos -260
+  ypos -57
+  number 1
+ }
+ Dot {
+  name Dot18
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -226
+  ypos -6
+ }
+set N38db0c00 [stack 0]
+ Invert {
+  channels rgba
+  name Inverter
+  note_font Helvetica
+  xpos -260
+  ypos 111
+ }
+ Dot {
+  name Dot11
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -226
+  ypos 234
+ }
+set N4d9f0c00 [stack 0]
+ Input {
+  inputs 0
+  name Input1
+  xpos -590
+  ypos -1281
+ }
+ Dot {
+  name Dot2
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos -1182
+ }
+set N46cc2400 [stack 0]
+ CornerPin2D {
+  to1 {0 0}
+  to2 {{format.w} 0}
+  to3 {{format.w} {format.h}}
+  to4 {0 {format.h}}
+  invert false
+  filter impulse
+  shutteroffset centred
+  from1 {{parent.Out1} {parent.Out1}}
+  from2 {{parent.Out2} {parent.Out2}}
+  from3 {{parent.Out3} {parent.Out3}}
+  from4 {{parent.Out4 x1 162} {parent.Out4 x1 82}}
+  name CornerPinFrom
+  tile_color 0xff00
+  note_font Helvetica
+  xpos -590
+  ypos -1113
+ }
+ Reformat {
+  type scale
+  resize none
+  name Reformat1
+  note_font Helvetica
+  xpos -590
+  ypos -1065
+ }
+ Crop {
+  box {0 0 {root.width} {root.height}}
+  name Crop1
+  note_font Helvetica
+  xpos -590
+  ypos -1017
+ }
+ Dot {
+  name Dot10
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos -846
+ }
+set N5b5eb800 [stack 0]
+ Dot {
+  name Dot12
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -776
+  ypos -846
+ }
+ Dot {
+  name Dot14
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -776
+  ypos -126
+ }
+set Na559dc00 [stack 0]
+ Dot {
+  name Dot16
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -776
+  ypos 234
+ }
+push $N5b5eb800
+ RotoPaint {
+  cliptype none
+  outputMask rgba.alpha
+  curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 2097664}
+    {t x44700000 x44200000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}}}}}
+  toolbox {clone {
+  { selectAll bs 205 src 1 str 1 ssx 1 ssy 1 sf 1 }
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush str 1 ssx 1 ssy 1 sf 1 sb 1 tt 17 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone bs 407 src 1 stx -565 sty -228 str 1 ssx 1 ssy 1 sf 1 sb 1 tt 19 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+  toolbar_label_points true
+  toolbar_hide_curve_lines_type true
+  toolbar_brush_size 407
+  toolbar_brush_hardness 0.200000003
+  toolbar_lifetime_type single
+  toolbar_paint_source fg
+  toolbar_source_transform_translate {-565 -228}
+  toolbar_source_transform_scale {1 1}
+  toolbar_source_transform_center {960 540}
+  colorOverlay {0 0 0 0}
+  paint_source foreground
+  view {}
+  motionblur_on true
+  motionblur_shutter_offset_type centred
+  brush_size 335
+  brush_spacing 0.05000000075
+  brush_hardness 0.200000003
+  source_black_outside true
+  name Paint
+  note_font Helvetica
+  xpos -590
+  ypos -681
+ }
+ Dot {
+  name Dot7
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos -414
+ }
+set N4d41dc00 [stack 0]
+ Premult {
+  name Premult1
+  note_font Helvetica
+  xpos -590
+  ypos -369
+  disable {{!parent.Premult}}
+ }
+ FrameHold {
+  first_frame {{parent.FrameInt}}
+  name FrameHold1
+  note_font Helvetica
+  xpos -590
+  ypos -303
+  disable {{!parent.Framehold}}
+ }
+ set C4d22a400 [stack 0]
+ Reformat {
+  type scale
+  scale {{1/(Reformat1.scale)}}
+  resize none
+  name Reformat2
+  note_font Helvetica
+  xpos -590
+  ypos -225
+ }
+ set C4d41d400 [stack 0]
+ Dot {
+  name Dot3
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos -6
+ }
+set N4d41cc00 [stack 0]
+ Dot {
+  name Dot19
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos 66
+ }
+set N38db1000 [stack 0]
+ Keymix {
+  inputs 3
+  bbox B
+  name presMix
+  note_font Helvetica
+  xpos -590
+  ypos 225
+ }
+push $N38db0c00
+push $N4d41cc00
+ ChannelMerge {
+  inputs 2
+  operation in
+  name ChannelMerge1
+  note_font Helvetica
+  xpos -480
+  ypos -21
+ }
+push $N38db1000
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  note_font Helvetica
+  xpos -480
+  ypos 57
+ }
+ Premult {
+  name Premult2
+  note_font Helvetica
+  xpos -480
+  ypos 135
+ }
+ Dot {
+  name Dot17
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -446
+  ypos 306
+ }
+ Switch {
+  inputs 2
+  which {{!parent.Premult}}
+  name Switcher
+  note_font Helvetica
+  xpos -590
+  ypos 303
+ }
+ CornerPin2D {
+  to1 {{parent.CornerPinFrom.to1} {parent.CornerPinFrom.to1}}
+  to2 {{parent.CornerPinFrom.to2} {parent.CornerPinFrom.to2}}
+  to3 {{parent.CornerPinFrom.to3} {parent.CornerPinFrom.to3}}
+  to4 {{parent.CornerPinFrom.to4} {parent.CornerPinFrom.to4}}
+  invert true
+  filter impulse
+  shutteroffset centred
+  from1 {{parent.CornerPinFrom.from1} {parent.CornerPinFrom.from1}}
+  from2 {{parent.CornerPinFrom.from2} {parent.CornerPinFrom.from2}}
+  from3 {{parent.CornerPinFrom.from3} {parent.CornerPinFrom.from3}}
+  from4 {{parent.CornerPinFrom.from4} {parent.CornerPinFrom.from4}}
+  name CornerPinTo
+  tile_color 0xff000000
+  note_font Helvetica
+  xpos -590
+  ypos 351
+ }
+ Dot {
+  name Dot4
+  label Pres
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos 450
+ }
+push $N4d9f0c00
+push $Na559dc00
+ Dot {
+  name Dot15
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 324
+  ypos -126
+ }
+ Dot {
+  name Dot13
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 324
+  ypos 234
+ }
+push $N4d41dc00
+ Dot {
+  name Dot8
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 104
+  ypos -414
+ }
+clone $C4d22a400 {
+  xpos 70
+  ypos -303
+  selected false
+ }
+clone $C4d41d400 {
+  xpos 70
+  ypos -225
+  selected false
+ }
+ Keymix {
+  inputs 3
+  bbox B
+  name Keymix1
+  note_font Helvetica
+  xpos 70
+  ypos 225
+ }
+ Dot {
+  name Dot9
+  label Unfold
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 104
+  ypos 378
+ }
+ Grid {
+  inputs 0
+  size {{parent.gridThick}}
+  name Grid1
+  note_font Helvetica
+  xpos 1610
+  ypos -249
+ }
+ CornerPin2D {
+  to1 {{parent.points.p1} {parent.points.p1}}
+  to2 {{parent.points.p2} {parent.points.p2}}
+  to3 {{parent.points.p3} {parent.points.p3}}
+  to4 {{parent.points.p4} {parent.points.p4}}
+  invert false
+  shutteroffset centred
+  from1 {0 0}
+  from2 {1920 0}
+  from3 {1920 1280}
+  from4 {0 1280}
+  name CornerPin2D1
+  note_font Helvetica
+  xpos 1610
+  ypos -177
+ }
+ Dot {
+  name Dot5
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 1644
+  ypos -102
+ }
+ Expression {
+  inputs 0
+  temp_name0 val
+  temp_expr0 "sin((atan( x - p1.x, y - p1.y ) -rad )* res)"
+  expr0 val
+  expr1 val
+  expr2 val
+  expr3 "sin((atan( x - p1.x, y - p1.y ) - rad )* res)"
+  name par4
+  note_font Helvetica
+  xpos 1390
+  ypos -801
+  addUserKnob {20 User}
+  addUserKnob {12 p2}
+  p2 {{points.p4.x} {points.p4.y}}
+  addUserKnob {12 p1}
+  p1 {{points.p3.x x1 305} {points.p3.y x1 238}}
+  addUserKnob {7 rad l radias}
+  rad {{"atan2((p2.x - p1.x), (p2.y - p1.y))" x1 0.045}}
+  addUserKnob {7 res R 10 100}
+  res 1
+ }
+ Grade {
+  channels all
+  whitepoint 0
+  white_clamp true
+  name Grade4
+  note_font Helvetica
+  xpos 1390
+  ypos -735
+ }
+ EdgeDetectWrapper {
+  channels rgba
+  threshold 2.26
+  erodesize 1.2
+  name EdgeDetect4
+  note_font Helvetica
+  xpos 1390
+  ypos -615
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle8
+  note_font "MS Shell Dlg 2"
+  note_font_size 20
+  xpos 1390
+  ypos -534
+ }
+ Expression {
+  inputs 0
+  temp_name0 val
+  temp_expr0 "sin((atan( x - p1.x, y - p1.y ) -rad )* res)"
+  expr0 val
+  expr1 val
+  expr2 val
+  expr3 "sin((atan( x - p1.x, y - p1.y ) - rad )* res)"
+  name par3
+  note_font Helvetica
+  xpos 1170
+  ypos -801
+  addUserKnob {20 User}
+  addUserKnob {12 p2}
+  p2 {{points.p4.x} {points.p4.y}}
+  addUserKnob {12 p1}
+  p1 {{points.p1.x x1 305} {points.p1.y x1 238}}
+  addUserKnob {7 rad l radias}
+  rad {{"atan2((p2.x - p1.x), (p2.y - p1.y))" x1 0.045}}
+  addUserKnob {7 res R 10 100}
+  res 1
+ }
+ Grade {
+  channels all
+  whitepoint 0
+  white_clamp true
+  name Grade3
+  note_font Helvetica
+  xpos 1170
+  ypos -735
+ }
+ EdgeDetectWrapper {
+  channels rgba
+  threshold 2.26
+  erodesize 1.2
+  name EdgeDetect3
+  note_font Helvetica
+  xpos 1170
+  ypos -615
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle7
+  note_font "MS Shell Dlg 2"
+  note_font_size 20
+  xpos 1170
+  ypos -534
+ }
+push 0
+ Expression {
+  inputs 0
+  temp_name0 val
+  temp_expr0 "sin((atan( x - p1.x, y - p1.y ) -rad )* res)"
+  expr0 val
+  expr1 val
+  expr2 val
+  expr3 "sin((atan( x - p1.x, y - p1.y ) - rad )* res)"
+  name par2
+  note_font Helvetica
+  xpos 950
+  ypos -801
+  addUserKnob {20 User}
+  addUserKnob {12 p2}
+  p2 {{points.p2.x} {points.p2.y}}
+  addUserKnob {12 p1}
+  p1 {{points.p3.x x1 305} {points.p3.y x1 238}}
+  addUserKnob {7 rad l radias}
+  rad {{"atan2((p2.x - p1.x), (p2.y - p1.y))" x1 0.045}}
+  addUserKnob {7 res R 10 100}
+  res 1
+ }
+ Grade {
+  channels all
+  whitepoint 0
+  white_clamp true
+  name Grade2
+  note_font Helvetica
+  xpos 950
+  ypos -735
+ }
+ EdgeDetectWrapper {
+  channels rgba
+  threshold 2.26
+  erodesize 1.2
+  name EdgeDetect2
+  note_font Helvetica
+  xpos 950
+  ypos -615
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle6
+  note_font "MS Shell Dlg 2"
+  note_font_size 20
+  xpos 950
+  ypos -534
+ }
+ Expression {
+  inputs 0
+  temp_name0 val
+  temp_expr0 "sin((atan( x - p1.x, y - p1.y ) -rad )* res)"
+  expr0 val
+  expr1 val
+  expr2 val
+  expr3 "sin((atan( x - p1.x, y - p1.y ) - rad )* res)"
+  name par1
+  note_font Helvetica
+  xpos 730
+  ypos -801
+  addUserKnob {20 User}
+  addUserKnob {12 p2}
+  p2 {{points.p2.x} {points.p2.y}}
+  addUserKnob {12 p1}
+  p1 {{points.p1.x x1 305} {points.p1.y x1 238}}
+  addUserKnob {7 rad l radias}
+  rad {{"atan2((p2.x - p1.x), (p2.y - p1.y))" x1 0.045}}
+  addUserKnob {7 res R 10 100}
+  res 1
+ }
+ Grade {
+  channels all
+  whitepoint 0
+  white_clamp true
+  name Grade1
+  note_font Helvetica
+  xpos 730
+  ypos -735
+ }
+ EdgeDetectWrapper {
+  channels rgba
+  threshold 2.26
+  erodesize 1.2
+  name EdgeDetect1
+  note_font Helvetica
+  xpos 730
+  ypos -615
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle5
+  note_font "MS Shell Dlg 2"
+  note_font_size 20
+  xpos 730
+  ypos -534
+ }
+ Merge2 {
+  inputs 4+1
+  bbox B
+  name Merge2
+  note_font Helvetica
+  xpos 1060
+  ypos -345
+ }
+ Clamp {
+  channels rgba
+  name Clamp1
+  note_font Helvetica
+  xpos 1060
+  ypos -297
+ }
+ Multiply {
+  channels rgb
+  value {{parent.outOp}}
+  name Multiply1
+  note_font Helvetica
+  xpos 1060
+  ypos -249
+ }
+ Dilate {
+  channels rgba
+  size {{parent.outThick}}
+  name Dilate1
+  label "\[value size]"
+  note_font Helvetica
+  xpos 1060
+  ypos -207
+ }
+ Merge2 {
+  inputs 2
+  bbox B
+  mix {{parent.gridOp}}
+  name Merge3
+  note_font Helvetica
+  xpos 1060
+  ypos -105
+ }
+ Multiply {
+  channels rgb
+  value {{parent.lineColor.r} {parent.lineColor.g} {parent.lineColor.b} 1}
+  unpremult rgba.alpha
+  name LineColor
+  note_font Helvetica
+  xpos 1060
+  ypos -39
+ }
+ Dot {
+  name Dot6
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 1094
+  ypos 42
+ }
+push $N46cc2400
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 434
+  ypos -1182
+ }
+ Merge2 {
+  inputs 2
+  operation screen
+  bbox B
+  name Merge1
+  note_font Helvetica
+  xpos 400
+  ypos 39
+ }
+ Switch {
+  inputs 3
+  which {{parent.mode}}
+  name Switch1
+  note_font Helvetica
+  xpos 400
+  ypos 447
+ }
+ Output {
+  name Output1
+  xpos 400
+  ypos 495
+ }
+end_group
