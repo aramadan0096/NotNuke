@@ -1,0 +1,246 @@
+#! C:/Program Files/Nuke12.0v1/nuke-12.0.1.dll -nx
+version 12.0 v1
+Gizmo {
+ inputs 2
+ tile_color 0x70ff
+ addUserKnob {20 User l Boom_EdgeBlur}
+ addUserKnob {4 Output M {RGBA All ""}}
+ addUserKnob {6 GPU l "Use GPU" -STARTLINE}
+ GPU true
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {7 Shutter R 0 5}
+ Shutter 1
+ addUserKnob {7 Threshold R 0 10}
+ Threshold 5
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {7 Mix}
+ Mix 1
+}
+ Input {
+  inputs 0
+  name mask
+  xpos -260
+  ypos -441
+  number 1
+ }
+ Input {
+  inputs 0
+  name img
+  xpos -810
+  ypos -2625
+ }
+ Dot {
+  name Dot5
+  xpos -776
+  ypos -2382
+ }
+set N80879800 [stack 0]
+ Dot {
+  name Dot7
+  note_font_size 22
+  xpos -1106
+  ypos -2382
+ }
+ Dot {
+  name Dot8
+  note_font_size 22
+  xpos -1106
+  ypos -438
+ }
+set N80879000 [stack 0]
+push $N80879800
+ Dot {
+  name Dot13
+  xpos -446
+  ypos -2382
+ }
+set N80878800 [stack 0]
+ Dot {
+  name Dot12
+  xpos -6
+  ypos -2382
+ }
+set N80878400 [stack 0]
+ Dot {
+  name Dot11
+  xpos 214
+  ypos -2382
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle
+  xpos 180
+  ypos -2265
+ }
+ Dot {
+  name Dot3
+  xpos 214
+  ypos -1278
+ }
+push $N80878800
+ Dot {
+  name Dot4
+  xpos -446
+  ypos -2118
+ }
+set N88ed9400 [stack 0]
+ Dot {
+  name Dot16
+  xpos -556
+  ypos -2118
+ }
+ Dot {
+  name Dot10
+  note_font_size 22
+  xpos -556
+  ypos -1638
+ }
+push $N80878400
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name ShuffleAlpha
+  xpos -40
+  ypos -2241
+  disable {{parent.analyzeChannels}}
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  name Crop
+  xpos -40
+  ypos -2097
+ }
+ VectorGenerator {
+  useGPUIfAvailable {{parent.GPU}}
+  motionEstimation Regularized
+  name VectorGenerator
+  xpos -40
+  ypos -1958
+ }
+ Dot {
+  name Dot20
+  xpos -6
+  ypos -1806
+ }
+push $N88ed9400
+ ShuffleCopy {
+  inputs 2
+  in forward
+  alpha alpha2
+  black red
+  white green
+  out2 forward
+  name ShuffleCopy
+  xpos -480
+  ypos -1809
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox
+  xpos -480
+  ypos -1641
+ }
+ VectorBlur2 {
+  useGPUIfAvailable {{parent.GPU}}
+  uv forward
+  blur_type uniform
+  scale {{parent.Shutter}}
+  name VectorBlur
+  xpos -480
+  ypos -1526
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove
+  xpos -480
+  ypos -1449
+  disable {{parent.Output}}
+ }
+ Dot {
+  name Dot9
+  xpos -446
+  ypos -1374
+ }
+set N42c16c00 [stack 0]
+ Dot {
+  name Dot6
+  xpos -116
+  ypos -1374
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  xpos -150
+  ypos -1353
+ }
+ Difference {
+  inputs 2
+  gain 111111111
+  name Difference
+  xpos -150
+  ypos -1286
+ }
+ Dilate {
+  size 5
+  name Dilate
+  xpos -150
+  ypos -1214
+ }
+ Blur {
+  size {{parent.Threshold}}
+  name Blur
+  xpos -150
+  ypos -1142
+ }
+ Dot {
+  name Dot2
+  xpos -116
+  ypos -1062
+ }
+push $N42c16c00
+push $N80879800
+ Dot {
+  name Dot1
+  xpos -776
+  ypos -1062
+ }
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos -480
+  ypos -1070
+ }
+ Keymix {
+  inputs 3
+  invertMask true
+  bbox B
+  name Keymix
+  xpos -480
+  ypos -446
+  disable {{"\[exists parent.input1] ? 0 : 1" x1 0}}
+ }
+push $N80879000
+ Dot {
+  name Dot22
+  xpos -1106
+  ypos -294
+ }
+ Dissolve {
+  inputs 2
+  which {{parent.Mix}}
+  name Dissolve
+  xpos -480
+  ypos -302
+ }
+ Output {
+  name Output1
+  xpos -480
+  ypos -129
+ }
+end_group
